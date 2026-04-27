@@ -1,0 +1,9 @@
+/vendor/
+.idea/
+*.log
+*.cache
+*.tmp
+.DS_Store
+Thumbs.db
+/public/build/
+.phpunit.result.cache

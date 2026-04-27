@@ -1,0 +1,20 @@
+{
+    "name": "user/php-pro",
+    "description": "php-profissional",
+    "authors": [
+        {
+            "name": "Marley",
+            "email": "marleyextreme02@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "files": [
+            "app/helpers/constants.php",
+            "app/router/router.php"
+        ],
+        "psr-4": {
+            "app\\": "app"
+        }
+    }
+}
