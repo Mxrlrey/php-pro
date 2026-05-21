@@ -16,7 +16,8 @@ function exactMatchUriInArrayRoutes($uri, $routes)
     return [];
 }
 
-function regularExpressionMatchArrayRoutes($uri, $routes){
+function regularExpressionMatchArrayRoutes($uri, $routes)
+{
     // Filtra o array de rotas, mantendo apenas as rotas cuja chave combina com a URI atual
     return array_filter(
         // Como foi usado ARRAY_FILTER_USE_KEY, essa função recebe a CHAVE da rota
@@ -33,6 +34,34 @@ function regularExpressionMatchArrayRoutes($uri, $routes){
     );
 }
 
+function params($uri, $matchedUri)
+{
+    // Se encontrou uma URI correspondente
+    if (!empty($matchedUri)) {
+        // Obtém a cahve da Uri encontrada
+        $matchedToGetParams = array_keys($matchedUri) [0];
+        // Retorna a diferença entre as partes das URIs,
+        // removendo a barra inicial das URIs
+        return array_diff(
+            $uri,
+            explode('/', ltrim($matchedToGetParams, '/'))
+        );
+    }
+    // Retorna um array vazio caso não encontre correspondência
+    return [];
+}
+
+function paramsFormat($uri, $params)
+{
+    $paramsData = [];
+    // Usa o segmento anterior da URI como chave do parâmetro
+    foreach ($params as $index => $param) {
+        $paramsData[$uri[$index - 1]] = $param;
+    }
+    // Retorna os parâmetros formatados
+    return $paramsData;
+}
+
 function router()
 {
     // $_SERVER['REQUEST_URI'] contém a URL completa acessada (incluindo query string)
@@ -45,7 +74,12 @@ function router()
 
     if (empty($matchedUri)) {
         $matchedUri = regularExpressionMatchArrayRoutes($uri, $routes);
+        // Exclui a primeira barra e separa a URI
+        $uri = explode('/', ltrim($uri, '/'));
+        $params = params($uri, $matchedUri);
+        $params = paramsFormat($uri, $params);
     }
 
     var_dump($matchedUri);
+    die();
 }
