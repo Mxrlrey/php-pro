@@ -72,6 +72,8 @@ function router()
 
     $matchedUri = exactMatchUriInArrayRoutes($uri, $routes);
 
+    $params = [];
+
     if (empty($matchedUri)) {
         $matchedUri = regularExpressionMatchArrayRoutes($uri, $routes);
         // Exclui a primeira barra e separa a URI
@@ -80,6 +82,10 @@ function router()
         $params = paramsFormat($uri, $params);
     }
 
-    var_dump($matchedUri);
-    die();
+    if (!empty($matchedUri)) {
+        controller($matchedUri, $params);
+        return;
+    }
+
+    throw new Exception('Algo deu errado');
 }
