@@ -1,19 +1,9 @@
 <?php
 
-// Carrega o as rotas do sistema
-function routes()
-{
-    return require 'routes.php';
-}
-
 function exactMatchUriInArrayRoutes($uri, $routes)
 {
     // Verifica se a URI atual existe no array de rotas
-    if (array_key_exists($uri, $routes)) {
-        return [];
-    }
-
-    return [];
+    return (array_key_exists($uri, $routes)) ? [$uri => $routes[$uri]] : [];
 }
 
 function regularExpressionMatchArrayRoutes($uri, $routes)
@@ -68,14 +58,15 @@ function router()
     // parse_url com PHP_URL_PATH extrai apenas o caminho da URL (sem parâmetros ?)
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-    $routes = routes();
+    $routes = require 'routes.php';
+    $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-    $matchedUri = exactMatchUriInArrayRoutes($uri, $routes);
+    $matchedUri = exactMatchUriInArrayRoutes($uri, $routes[$requestMethod]);
 
     $params = [];
 
     if (empty($matchedUri)) {
-        $matchedUri = regularExpressionMatchArrayRoutes($uri, $routes);
+        $matchedUri = regularExpressionMatchArrayRoutes($uri, $routes[$requestMethod]);
         // Exclui a primeira barra e separa a URI
         $uri = explode('/', ltrim($uri, '/'));
         $params = params($uri, $matchedUri);
