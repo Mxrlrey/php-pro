@@ -16,4 +16,4 @@ WORKDIR /var/www/html/public
 EXPOSE 8080
 
 ENTRYPOINT ["app-entrypoint"]
-CMD ["php", "-d", "include_path=.:../app/router", "-S", "0.0.0.0:8080"]
+CMD ["php", "-S", "0.0.0.0:8080"]

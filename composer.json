@@ -7,12 +7,12 @@
             "email": "marleyextreme02@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+      "ext-pdo": "*"
+    },
     "autoload": {
         "files": [
-            "app/helpers/constants.php",
-            "app/router/router.php",
-            "app/core/controller.php"
+            "app/helpers/constants.php"
         ],
         "psr-4": {
             "app\\": "app"

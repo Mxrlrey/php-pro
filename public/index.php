@@ -1,9 +1,10 @@
 <?php
 
-require 'bootstrap.php';
+require __DIR__.'/bootstrap.php';
 
 try {
-    $data = router();
+    $router = require ROOT.'/app/routing/routes.php';
+    $data = $router->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 
     if (!isset($data['data'])) {
         throw new Exception('O índice data está faltando.');

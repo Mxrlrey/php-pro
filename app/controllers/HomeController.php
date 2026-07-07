@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-class Home
+class HomeController
 {
-    public function index($params)
+    public function index()
     {
         return [
             'view'  => 'home.php',
